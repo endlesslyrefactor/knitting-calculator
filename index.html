@@ -92,11 +92,11 @@
             var sleeveRows = (sleeveLength - hemHeight) * rowGauge
             var sleeveCastOnStitches = cuffCircumference * stitchGauge
             var sleeveCastOffStitches = sleeveCircumference * stitchGauge
-            var sleeveDecreaseRate = (sleeveCastOffStitches - sleeveCastOnStitches) / (sleeveRows / 2)
+            var sleeveDecreaseRate = sleeveRows / (sleeveCastOffStitches - sleeveCastOnStitches)
             var neckDepthRows = neckDepth * rowGauge
             var finishedNeckStitches = finishedNeckWidth * stitchGauge
             var startingNeckStitches = finishedNeckStitches / 3
-            var neckDecreaseRate = (finishedNeckStitches - startingNeckStitches) / (neckDepthRows / 2)
+            var neckDecreaseRate = (finishedNeckStitches - startingNeckStitches) / neckDepthRows
             var bodyCastOnStitches = bodyRadius * stitchGauge
             var bodyRows = bodyLength * rowGauge
             var bodyToUnderarmRows = (bodyLength - armHoleDepth) * rowGauge
