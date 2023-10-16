@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <style>
+        form label { 
+            display: inline-block;
+            width: 30rem; 
+            padding: 1rem;
+        }
+
+        table {
+            margin-top: 5rem;
+            width: 40rem;
+        }
+
+        table td {
+            border: 1px solid black;
+            padding: 1rem;
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+        <h1>Knitting Calculator</h1>  
+        <form id="measurements-form">
+            <label for="stitch-gauge">What are the stitches per inch?</label><input type="number" id="stitch-gauge" />
+            <label for="row-gauge">What are the rows per inch?</label><input type="number" id="row-gauge" />
+            <label for="body-radius">What is the body radius?</label><input type="number" id="body-radius" />
+            <label for="body-length">What is the body length from the top of the shoulder to the hem?</label><input type="number" id="body-length" />
+            <label for="hem-height">What is the hem height?</label><input type="number" id="hem-height" />
+            <label for="arm-hole-depth">What is the arm hole depth?</label><input type="number" id="arm-hole-depth" />
+            <label for="sleeve-length">What is the sleeve length?</label><input type="number" id="sleeve-length" />
+            <label for="cuff-circumference">What is the cuff circumference?</label><input type="number" id="cuff-circumference" />
+            <label for="neck-depth">What is the neck depth?</label><input type="number" id="neck-depth" />
+            <label for="finshed-neck-width">What is the finished neck width?</label><input type="number" id="finshed-neck-width" />
+            <br/>
+            <input type="submit" value="Calculate"/>
+        </form>
+        <table>
+            <tr><td>Measurement</td><td>Value</td></tr>
+            <tr><td>Stitches per inch</td><td id="stitch-gauge-value"></td></tr>
+            <tr><td>Stitches per row</td><td id="row-gauge-value"></td></tr>
+            <tr><td>Body radius</td><td id="body-radius-value"></td></tr>
+            <tr><td>Body length from the top of the shoulder to the hem</td><td id="body-length-value"></td></tr>
+            <tr><td>Hem height</td><td id="hem-height-value"></td></tr>
+            <tr><td>Arm hole depth</td><td id="arm-hole-depth-value"></td></tr>
+            <tr><td>Sleeve length</td><td id="sleeve-length-value"></td></tr>
+            <tr><td>Cuff circumference</td><td id="cuff-circumference-value"></td></tr>
+            <tr><td>Neck depth</td><td id="neck-depth-value"></td></tr>
+            <tr><td>Finished neck width</td><td id="finished-neck-width-value"></td></tr>
+            <tr><td>Sleeve circumference</td><td id="sleeve-circumference-value"></td></tr>
+            <tr><td>Sleeve rows</td><td id="sleeve-rows-value"></td></tr>
+            <tr><td>Sleeve cast on stitches</td><td id="sleeve-cast-on-stitches-value"></td></tr>
+            <tr><td>Sleeve cast off stitches</td><td id="sleeve-cast-off-stitches-value"></td></tr>
+            <tr><td>Sleeve decrease rate</td><td id="sleeve-decrease-rate-value"></td></tr>
+            <tr><td>Total neck depth rows</td><td id="neck-depth-rows-value"></td></tr>
+            <tr><td>Starting neck stitches</td><td id="starting-neck-stitches-value"></td></tr>
+            <tr><td>Finished neck stitches</td><td id="finished-neck-stitches-value"></td></tr>
+            <tr><td>Neck decrease rate</td><td id="neck-decrease-rate-value"></td></tr>
+            <tr><td>Body cast on stitch</td><td id="body-cast-on-stitches-value"></td></tr>
+            <tr><td>Full body rows (minus hem)</td><td id="body-rows-value"></td></tr>
+            <tr><td>Body to underarm rows</td><td id="body-to-underarm-rows-value"></td></tr>
+            <tr><td>Arm hole to the top shoulder rows</td><td id="arm-hole-to-top-shoulder-rows-value"></td></tr>
+            <tr><td>Centre front/back</td><td id="centre-front-back-value"></td></tr>
+        </table>
+    </main>
+	<script>
+        document.getElementById('measurements-form').addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            var stitchGauge = document.getElementById('stitch-gauge').value
+            var rowGauge = document.getElementById('row-gauge').value
+            var bodyRadius = document.getElementById('body-radius').value
+            var bodyLength = document.getElementById('body-length').value
+            var hemHeight = document.getElementById('hem-height').value
+            var armHoleDepth = document.getElementById('arm-hole-depth').value
+            var sleeveLength = document.getElementById('sleeve-length').value
+            var cuffCircumference = document.getElementById('cuff-circumference').value
+            var neckDepth = document.getElementById('neck-depth').value
+            var finishedNeckWidth = document.getElementById('finshed-neck-width').value
+
+            var sleeveCircumference = armHoleDepth * 2
+            var sleeveRows = (sleeveLength - hemHeight) * rowGauge
+            var sleeveCastOnStitches = cuffCircumference * stitchGauge
+            var sleeveCastOffStitches = sleeveCircumference * stitchGauge
+            var sleeveDecreaseRate = (sleeveCastOffStitches - sleeveCastOnStitches) / (sleeveRows / 2)
+            var neckDepthRows = neckDepth * rowGauge
+            var finishedNeckStitches = finishedNeckWidth * stitchGauge
+            var startingNeckStitches = finishedNeckStitches / 3
+            var neckDecreaseRate = (finishedNeckStitches - startingNeckStitches) / (neckDepthRows / 2)
+            var bodyCastOnStitches = bodyRadius * stitchGauge
+            var bodyRows = bodyLength * rowGauge
+            var bodyToUnderarmRows = (bodyLength - armHoleDepth) * rowGauge
+            var armHoleToTopShoulderRows = armHoleDepth * rowGauge
+            var centreFrontBack = bodyRadius / 2
+
+            document.getElementById('stitch-gauge-value').innerText = stitchGauge
+            document.getElementById('row-gauge-value').innerText = rowGauge
+            document.getElementById('body-radius-value').innerText = bodyRadius
+            document.getElementById('body-length-value').innerText = bodyLength
+            document.getElementById('hem-height-value').innerText = hemHeight
+            document.getElementById('arm-hole-depth-value').innerText = armHoleDepth
+            document.getElementById('sleeve-length-value').innerText = sleeveLength
+            document.getElementById('cuff-circumference-value').innerText = cuffCircumference
+            document.getElementById('neck-depth-value').innerText = neckDepth
+            document.getElementById('finished-neck-width-value').innerText = finishedNeckWidth
+            document.getElementById('sleeve-circumference-value').innerText = sleeveCircumference
+            document.getElementById('sleeve-rows-value').innerText = sleeveRows
+            document.getElementById('sleeve-cast-on-stitches-value').innerText = sleeveCastOnStitches
+            document.getElementById('sleeve-cast-off-stitches-value').innerText = sleeveCastOffStitches
+            document.getElementById('sleeve-decrease-rate-value').innerText = sleeveDecreaseRate
+            document.getElementById('neck-depth-rows-value').innerText = neckDepthRows
+            document.getElementById('starting-neck-stitches-value').innerText = startingNeckStitches
+            document.getElementById('finished-neck-stitches-value').innerText = finishedNeckStitches
+            document.getElementById('neck-decrease-rate-value').innerText = neckDecreaseRate
+            document.getElementById('body-cast-on-stitches-value').innerText = bodyCastOnStitches
+            document.getElementById('body-rows-value').innerText = bodyRows
+            document.getElementById('body-to-underarm-rows-value').innerText = bodyToUnderarmRows
+            document.getElementById('arm-hole-to-top-shoulder-rows-value').innerText = armHoleToTopShoulderRows
+            document.getElementById('centre-front-back-value').innerText = centreFrontBack
+        })
+    </script>
+  </body>
+</html>
